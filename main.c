@@ -9,7 +9,7 @@ char checkForWinner();
 void drawBoard();
 void updatePlayer();
 void markSpot(int position);
-void checkDraw();
+char checkDraw();
 void endGame(char W);
 
 
@@ -20,12 +20,14 @@ do{
     drawBoard();
     printf("Enter the spot for player[%d]: ", player);
     scanf("%d", &position);
-    markSpot(position);
-    checkDraw();
-    char c = checkForWinner();   
-    if(c != 'c'){
+    markSpot((position-1));
+    char c = checkForWinner(); 
+    char d = checkDraw();  
+    if(c != 'c' && d != 'f'){
         endGame(c);
     }
+    drawBoard();
+    
 }while(gameStatus != 1);
 }
 
@@ -34,7 +36,7 @@ do{
 This function would check the non empty space characters ' ' and count them if it is equal to the totoal number of spots
 and end the loop
 */
-void checkDraw(){
+char checkDraw(){
     int count = 0;
     for(int i = 0; i <(sizeof(spot)/sizeof(spot[0])); i++){
         if(spot[i] != ' '){
@@ -43,10 +45,12 @@ void checkDraw(){
     }
     if(count == (sizeof(spot)/sizeof(spot[0])))
     {   
-        drawBoard();
         printf("Its a draw game !!!\n");
         gameStatus = 1;
+        drawBoard();
+        return 'f';
     }
+    return 't';
 }
 
 
